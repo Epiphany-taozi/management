@@ -4,6 +4,9 @@
 # Logs
 *.log
 
+# Compiled classes
+*.class
+
 # OS files
 .DS_Store
 Thumbs.db

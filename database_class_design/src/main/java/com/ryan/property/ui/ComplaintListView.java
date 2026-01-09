@@ -10,6 +10,7 @@ import com.ryan.property.ui.UiStyler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -19,18 +20,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class ComplaintListView extends BorderPane {
 
@@ -43,13 +44,15 @@ public class ComplaintListView extends BorderPane {
     private final ComboBox<String> statusCombo = new ComboBox<>();
     private final DatePicker startDatePicker = new DatePicker();
     private final DatePicker endDatePicker = new DatePicker();
+    private final Label statusLabel = new Label("就绪");
+    private final HBox statusBar = new HBox(statusLabel);
 
     public ComplaintListView() {
         setPadding(new Insets(16));
         getStyleClass().add("view-root");
 
-        Text title = new Text("投诉管理（Complaints）");
-        title.getStyleClass().add("view-title");
+        Label title = new Label("投诉管理");
+        title.getStyleClass().add("page-title");
 
         Button btnAdd = new Button("登记投诉");
         Button btnReply = new Button("回复");
@@ -61,25 +64,34 @@ public class ComplaintListView extends BorderPane {
 
         btnAdd.getStyleClass().add("btn-primary");
         btnReply.getStyleClass().add("btn-secondary");
-        btnRefresh.getStyleClass().add("btn-ghost");
+        btnRefresh.getStyleClass().add("btn-secondary");
 
-        ToolBar toolBar = new ToolBar(
-                title,
-                new Separator(),
-                btnAdd,
-                btnReply,
-                new Separator(),
-                btnRefresh
-        );
-        toolBar.getStyleClass().add("app-toolbar");
+        HBox actions = new HBox(8, btnAdd, btnReply, btnRefresh);
+        actions.getStyleClass().add("top-bar-actions");
+        actions.setAlignment(Pos.CENTER_RIGHT);
 
-        VBox headerBox = new VBox(12, toolBar, buildFilterBar());
-        setTop(headerBox);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox topBar = new HBox(12, title, spacer, actions);
+        topBar.getStyleClass().add("top-bar");
+        topBar.setAlignment(Pos.CENTER_LEFT);
+        setTop(topBar);
 
         buildTable();
         table.getStyleClass().add("app-table");
-        setCenter(table);
-        BorderPane.setMargin(table, new Insets(12, 0, 0, 0));
+        table.setPlaceholder(buildEmptyState("暂无投诉记录", "登记投诉", this::onAdd));
+
+        VBox card = new VBox(12, buildFilterBar(), table);
+        card.getStyleClass().add("card");
+        VBox.setVgrow(table, Priority.ALWAYS);
+        setCenter(card);
+        BorderPane.setMargin(card, new Insets(12, 0, 0, 0));
+
+        statusBar.getStyleClass().addAll("status-bar", "status-info");
+        statusBar.setAlignment(Pos.CENTER_LEFT);
+        setBottom(statusBar);
+        BorderPane.setMargin(statusBar, new Insets(12, 0, 0, 0));
 
         table.setRowFactory(tv -> {
             TableRow<Complaint> row = new TableRow<>();
@@ -94,7 +106,7 @@ public class ComplaintListView extends BorderPane {
         reload();
     }
 
-    private HBox buildFilterBar() {
+    private FlowPane buildFilterBar() {
         ownerIdField.setPromptText("业主ID（可空）");
         UiStyler.applyInputStyles(ownerIdField, statusCombo, startDatePicker, endDatePicker);
 
@@ -121,14 +133,24 @@ public class ComplaintListView extends BorderPane {
             reload();
         });
 
-        HBox filterBar = new HBox(10,
-                new Label("业主ID"), ownerIdField,
-                new Label("状态"), statusCombo,
-                new Label("开始"), startDatePicker,
-                new Label("结束"), endDatePicker,
+        Label ownerLabel = new Label("业主ID");
+        ownerLabel.getStyleClass().add("filter-label");
+        Label statusFilterLabel = new Label("状态");
+        statusFilterLabel.getStyleClass().add("filter-label");
+        Label startLabel = new Label("开始");
+        startLabel.getStyleClass().add("filter-label");
+        Label endLabel = new Label("结束");
+        endLabel.getStyleClass().add("filter-label");
+
+        FlowPane filterBar = new FlowPane(10, 8,
+                ownerLabel, ownerIdField,
+                statusFilterLabel, statusCombo,
+                startLabel, startDatePicker,
+                endLabel, endDatePicker,
                 btnFilter, btnReset
         );
         filterBar.getStyleClass().add("filter-bar");
+        filterBar.setAlignment(Pos.CENTER_LEFT);
         return filterBar;
     }
 
@@ -194,6 +216,7 @@ public class ComplaintListView extends BorderPane {
 
         data.setAll(complaintDao.findByFilters(ownerId, status, startDate, endDate));
         System.out.println("[UI] Complaint list loaded: " + data.size());
+        showStatus("status-info", "已加载 " + data.size() + " 条投诉记录");
     }
 
     private Long parseOwnerId() {
@@ -392,6 +415,7 @@ public class ComplaintListView extends BorderPane {
     }
 
     private void alertInfo(String title, String msg) {
+        showStatus("status-success", msg);
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle(title);
         a.setHeaderText(null);
@@ -401,6 +425,7 @@ public class ComplaintListView extends BorderPane {
     }
 
     private void alertWarn(String title, String msg) {
+        showStatus("status-warning", msg);
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setTitle(title);
         a.setHeaderText(null);
@@ -410,12 +435,35 @@ public class ComplaintListView extends BorderPane {
     }
 
     private void alertError(String title, String msg) {
+        showStatus("status-error", msg);
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
         UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
+    }
+
+    private void showStatus(String styleClass, String message) {
+        statusLabel.setText(message);
+        statusBar.getStyleClass().removeAll("status-info", "status-warning", "status-error", "status-success");
+        statusBar.getStyleClass().add(styleClass);
+    }
+
+    private VBox buildEmptyState(String title, String actionLabel, Runnable action) {
+        Label icon = new Label("📝");
+        icon.getStyleClass().add("empty-state-icon");
+        Label headline = new Label(title);
+        headline.getStyleClass().add("empty-state-title");
+        Label subtext = new Label("点击按钮登记第一条投诉记录");
+        subtext.getStyleClass().add("empty-state-text");
+        Button actionBtn = new Button(actionLabel);
+        actionBtn.getStyleClass().add("btn-primary");
+        actionBtn.setOnAction(e -> action.run());
+
+        VBox box = new VBox(8, icon, headline, subtext, actionBtn);
+        box.getStyleClass().add("empty-state");
+        return box;
     }
 
     private static class ReplyForm {

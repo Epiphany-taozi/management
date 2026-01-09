@@ -1,0 +1,48 @@
+.view-root {
+    -fx-background-color: transparent;
+}
+
+.page-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -color-text;
+}
+
+.page-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-text-muted;
+}
+
+.top-bar-actions {
+    -fx-spacing: 8;
+}
+
+.filter-label {
+    -fx-text-fill: -color-text-muted;
+}
+
+.empty-state {
+    -fx-alignment: center;
+    -fx-padding: 24;
+    -fx-spacing: 8;
+}
+
+.empty-state-icon {
+    -fx-font-size: 30px;
+}
+
+.empty-state-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -color-text;
+}
+
+.empty-state-text {
+    -fx-text-fill: -color-text-muted;
+}
+
+.form-grid {
+    -fx-hgap: 12;
+    -fx-vgap: 12;
+    -fx-padding: 16;
+}

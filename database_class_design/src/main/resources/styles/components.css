@@ -1,0 +1,292 @@
+.app-root {
+    -fx-background-color: -color-bg;
+}
+
+.app-shell {
+    -fx-background-color: -color-surface;
+    -fx-padding: 12 24;
+    -fx-border-color: transparent transparent -color-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.app-shell-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -color-text;
+}
+
+.top-bar {
+    -fx-background-color: -color-surface;
+    -fx-padding: 16 20;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -color-border;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.08), 12, 0, 0, 4);
+}
+
+.card {
+    -fx-background-color: -color-surface;
+    -fx-padding: 16;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -color-border;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.06), 16, 0, 0, 6);
+}
+
+.filter-bar {
+    -fx-background-color: -color-surface-2;
+    -fx-padding: 12 14;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: -color-border;
+}
+
+.status-bar {
+    -fx-background-color: -color-surface;
+    -fx-padding: 10 16;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: -color-border;
+}
+
+.status-bar .label {
+    -fx-text-fill: -color-text-muted;
+}
+
+.status-info {
+    -fx-border-color: -color-accent;
+}
+
+.status-warning {
+    -fx-border-color: #f59e0b;
+}
+
+.status-error {
+    -fx-border-color: -color-danger;
+}
+
+.status-success {
+    -fx-border-color: -color-success;
+}
+
+.button,
+.toggle-button {
+    -fx-background-color: -color-accent;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(79, 70, 229, 0.2), 8, 0, 0, 2);
+}
+
+.button:hover,
+.toggle-button:hover {
+    -fx-background-color: -color-accent-hover;
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+.button:pressed,
+.toggle-button:pressed {
+    -fx-background-color: #3730a3;
+    -fx-scale-x: 0.99;
+    -fx-scale-y: 0.99;
+}
+
+.button:disabled,
+.toggle-button:disabled {
+    -fx-opacity: 0.6;
+}
+
+.btn-secondary {
+    -fx-background-color: -color-surface-2;
+    -fx-text-fill: -color-text;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 10;
+    -fx-effect: none;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: derive(-color-surface-2, -4%);
+}
+
+.btn-ghost {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text-muted;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+.btn-ghost:hover {
+    -fx-background-color: -color-surface-2;
+    -fx-text-fill: -color-text;
+}
+
+.btn-danger {
+    -fx-background-color: -color-danger;
+    -fx-text-fill: white;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #be123c;
+}
+
+.app-input,
+.text-input,
+.combo-box-base,
+.date-picker,
+.text-area {
+    -fx-background-color: -color-surface;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -color-border;
+    -fx-padding: 8 12;
+    -fx-highlight-fill: rgba(79, 70, 229, 0.2);
+    -fx-focus-color: -color-accent;
+    -fx-faint-focus-color: rgba(79, 70, 229, 0.15);
+}
+
+.text-input:focused,
+.combo-box-base:focused,
+.date-picker:focused,
+.text-area:focused {
+    -fx-border-color: -color-accent;
+    -fx-effect: dropshadow(three-pass-box, rgba(79, 70, 229, 0.25), 10, 0, 0, 2);
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -color-surface-2;
+    -fx-background-radius: 12 12 0 0;
+    -fx-padding: 4 0 6 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 42px;
+    -fx-border-color: transparent transparent -color-border transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -color-text;
+    -fx-font-weight: 700;
+}
+
+.table-row-cell {
+    -fx-background-color: -color-surface;
+    -fx-border-color: transparent transparent -color-border transparent;
+    -fx-cell-size: 44px;
+    -fx-text-fill: -color-text;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: -color-surface-2;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: rgba(99, 102, 241, 0.12);
+}
+
+.table-row-cell:selected {
+    -fx-background-color: rgba(99, 102, 241, 0.22);
+}
+
+.table-view .table-cell {
+    -fx-padding: 10 8;
+    -fx-text-fill: -color-text;
+}
+
+.dialog-pane.app-dialog {
+    -fx-background-color: -color-surface;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -color-border;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.16), 16, 0, 0, 6);
+    -fx-padding: 8;
+}
+
+.dialog-pane.app-dialog .header-panel {
+    -fx-background-color: -color-surface;
+    -fx-border-color: transparent transparent -color-border transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-radius: 14 14 0 0;
+}
+
+.dialog-pane.app-dialog .header-panel .label {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -color-text;
+}
+
+.dialog-pane.app-dialog .content.label {
+    -fx-text-fill: -color-text;
+}
+
+.dialog-pane.app-dialog .button-bar {
+    -fx-padding: 8 12 12 12;
+}
+
+.context-menu {
+    -fx-background-color: -color-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 10;
+    -fx-padding: 6;
+}
+
+.menu-item:focused {
+    -fx-background-color: -color-surface-2;
+}
+
+.pagination {
+    -fx-page-information-visible: false;
+}
+
+.pagination .control-box {
+    -fx-spacing: 6;
+}
+
+.pagination .control-box .button {
+    -fx-background-radius: 8;
+    -fx-padding: 6 10;
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.app-tabs {
+    -fx-background-color: transparent;
+}
+
+.tab-pane > .tab-header-area {
+    -fx-padding: 10 16 6 16;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: -color-surface;
+    -fx-background-radius: 12 12 0 0;
+    -fx-border-radius: 12 12 0 0;
+    -fx-border-color: -color-border;
+    -fx-padding: 8 18;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: -color-surface;
+    -fx-border-color: -color-accent;
+    -fx-border-width: 1 1 0 1;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-text-fill: -color-text;
+    -fx-font-weight: 600;
+}
+.toggle-button:selected {
+    -fx-background-color: -color-accent-hover;
+}
