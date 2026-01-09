@@ -38,11 +38,12 @@ public class MainApp extends Application {
         tabPane.getTabs().setAll(ownersTab, staffTab, assetsTab, complaintTab);
 
         Scene scene = new Scene(tabPane, 1200, 620);
+        scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
         stage.setTitle("Property Management System");
         stage.setScene(scene);
         stage.show();
     }
-
+    
     public static void main(String[] args) {
         launch();
     }

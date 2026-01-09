@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class OwnerListView extends BorderPane {
@@ -73,7 +74,10 @@ public class OwnerListView extends BorderPane {
         setTop(toolBar);
 
         buildTable();
-        setCenter(table);
+        VBox card = new VBox(table);
+        card.getStyleClass().add("card");
+        setCenter(card);
+
 
         table.setRowFactory(tv -> {
             TableRow<Owner> row = new TableRow<>();
