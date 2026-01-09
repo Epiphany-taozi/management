@@ -1,8 +1,8 @@
 .root {
     -fx-font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
     -fx-font-size: 13.5px;
-    -fx-text-fill: #1e293b;
-    -fx-background-color: linear-gradient(to bottom right, #eef2ff, #f8fafc);
+    -fx-text-fill: #0f172a;
+    -fx-background-color: linear-gradient(to bottom right, #eef2ff, #f8fafc 42%, #e2e8f0);
 }
 
 .view-root {
@@ -10,110 +10,117 @@
 }
 
 .view-title {
-    -fx-font-size: 19px;
+    -fx-font-size: 20px;
     -fx-font-weight: 700;
-    -fx-fill: #0f172a;
+    -fx-fill: #0b1120;
+    -fx-font-smoothing-type: lcd;
 }
 
 .app-tabs {
     -fx-background-color: transparent;
-    -fx-padding: 10 14 12 14;
+    -fx-padding: 12 18 16 18;
 }
 
 .tab-pane > .tab-header-area {
-    -fx-padding: 8 10 6 10;
+    -fx-padding: 10 12 8 12;
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab {
-    -fx-background-color: rgba(255,255,255,0.65);
-    -fx-padding: 9 20;
-    -fx-background-radius: 12 12 0 0;
-    -fx-border-radius: 12 12 0 0;
-    -fx-border-color: rgba(148,163,184,0.35);
+    -fx-background-color: rgba(255,255,255,0.72);
+    -fx-padding: 10 22;
+    -fx-background-radius: 14 14 0 0;
+    -fx-border-radius: 14 14 0 0;
+    -fx-border-color: rgba(148,163,184,0.25);
     -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.08), 10, 0, 0, 3);
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:selected {
     -fx-background-color: #ffffff;
-    -fx-border-color: #c7d2fe;
+    -fx-border-color: rgba(79,70,229,0.35);
     -fx-border-width: 1 1 0 1;
-    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.12), 12, 0, 0, 4);
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.16), 16, 0, 0, 6);
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
-    -fx-text-fill: #334155;
+    -fx-text-fill: #1e293b;
     -fx-font-weight: 600;
 }
 
 .app-toolbar {
-    -fx-background-color: rgba(255,255,255,0.92);
-    -fx-background-radius: 14;
-    -fx-padding: 12 16;
-    -fx-border-color: rgba(148,163,184,0.35);
-    -fx-border-radius: 14;
-    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.12), 16, 0, 0, 6);
+    -fx-background-color: rgba(255,255,255,0.94);
+    -fx-background-radius: 18;
+    -fx-padding: 14 18;
+    -fx-border-color: rgba(148,163,184,0.28);
+    -fx-border-radius: 18;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.12), 18, 0, 0, 8);
 }
 
 .filter-bar {
     -fx-background-color: rgba(255,255,255,0.9);
-    -fx-background-radius: 14;
-    -fx-padding: 12 16;
-    -fx-border-color: rgba(148,163,184,0.3);
-    -fx-border-radius: 14;
-    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.08), 14, 0, 0, 5);
+    -fx-background-radius: 16;
+    -fx-padding: 12 18;
+    -fx-border-color: rgba(148,163,184,0.28);
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.1), 16, 0, 0, 6);
 }
 
 .app-table {
     -fx-background-color: #ffffff;
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-border-color: rgba(148,163,184,0.3);
-    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.1), 18, 0, 0, 6);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(148,163,184,0.28);
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.12), 20, 0, 0, 8);
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #f1f5ff;
-    -fx-background-radius: 16 16 0 0;
+    -fx-background-color: linear-gradient(to bottom, #f8f9ff, #eef2ff);
+    -fx-background-radius: 18 18 0 0;
 }
 
 .table-view .column-header,
 .table-view .filler {
     -fx-background-color: transparent;
-    -fx-size: 42px;
-    -fx-border-color: transparent transparent rgba(148,163,184,0.25) transparent;
+    -fx-size: 44px;
+    -fx-border-color: transparent transparent rgba(148,163,184,0.22) transparent;
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: #1e293b;
+    -fx-text-fill: #0f172a;
     -fx-font-weight: 700;
 }
 
 .table-row-cell {
     -fx-background-color: #ffffff;
-    -fx-border-color: transparent transparent rgba(148,163,184,0.2) transparent;
-    -fx-cell-size: 38px;
+    -fx-border-color: transparent transparent rgba(148,163,184,0.18) transparent;
+    -fx-cell-size: 40px;
+    -fx-text-fill: #1f2937;
 }
 
 .table-row-cell:odd {
     -fx-background-color: #f8faff;
 }
 
+.table-row-cell:hover {
+    -fx-background-color: #edf2ff;
+}
+
 .table-row-cell:selected {
-    -fx-background-color: #e0e7ff;
-    -fx-text-fill: #1e293b;
+    -fx-background-color: #dde4ff;
+    -fx-text-fill: #0f172a;
 }
 
 .button {
-    -fx-background-color: linear-gradient(to bottom, #4f46e5, #4338ca);
+    -fx-background-color: linear-gradient(to bottom, #5b63ff, #4f46e5);
     -fx-text-fill: #ffffff;
     -fx-font-weight: 600;
-    -fx-background-radius: 10;
-    -fx-padding: 8 18;
-    -fx-effect: dropshadow(three-pass-box, rgba(67,56,202,0.3), 10, 0, 0, 3);
+    -fx-background-radius: 12;
+    -fx-padding: 9 18;
+    -fx-effect: dropshadow(three-pass-box, rgba(79,70,229,0.32), 12, 0, 0, 4);
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(to bottom, #4338ca, #3730a3);
+    -fx-background-color: linear-gradient(to bottom, #4f46e5, #4338ca);
 }
 
 .button:pressed {
@@ -125,26 +132,26 @@
 }
 
 .btn-primary {
-    -fx-background-color: linear-gradient(to bottom, #4f46e5, #4338ca);
+    -fx-background-color: linear-gradient(to bottom, #5b63ff, #4f46e5);
 }
 
 .btn-primary:hover {
-    -fx-background-color: linear-gradient(to bottom, #4338ca, #3730a3);
+    -fx-background-color: linear-gradient(to bottom, #4f46e5, #4338ca);
 }
 
 .btn-secondary {
-    -fx-background-color: linear-gradient(to bottom, #06b6d4, #0891b2);
+    -fx-background-color: linear-gradient(to bottom, #22c1c3, #0ea5e9);
 }
 
 .btn-secondary:hover {
-    -fx-background-color: linear-gradient(to bottom, #0891b2, #0e7490);
+    -fx-background-color: linear-gradient(to bottom, #0ea5e9, #0284c7);
 }
 
 .btn-ghost {
-    -fx-background-color: rgba(255,255,255,0.8);
-    -fx-text-fill: #4338ca;
-    -fx-border-color: rgba(148,163,184,0.45);
-    -fx-border-radius: 10;
+    -fx-background-color: rgba(255,255,255,0.9);
+    -fx-text-fill: #3730a3;
+    -fx-border-color: rgba(148,163,184,0.38);
+    -fx-border-radius: 12;
 }
 
 .btn-ghost:hover {
@@ -163,11 +170,11 @@
 .text-input,
 .combo-box-base,
 .date-picker {
-    -fx-background-color: rgba(255,255,255,0.95);
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-border-color: rgba(148,163,184,0.45);
-    -fx-padding: 7 12;
+    -fx-background-color: rgba(255,255,255,0.96);
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: rgba(148,163,184,0.4);
+    -fx-padding: 8 12;
     -fx-highlight-fill: #c7d2fe;
     -fx-focus-color: #4f46e5;
     -fx-faint-focus-color: rgba(79,70,229,0.2);
@@ -176,21 +183,21 @@
 .text-input:focused,
 .combo-box-base:focused,
 .date-picker:focused {
-    -fx-border-color: #4f46e5;
-    -fx-effect: dropshadow(three-pass-box, rgba(79,70,229,0.2), 12, 0, 0, 3);
+    -fx-border-color: rgba(79,70,229,0.7);
+    -fx-effect: dropshadow(three-pass-box, rgba(79,70,229,0.24), 14, 0, 0, 4);
 }
 
 .dialog-pane.app-dialog {
     -fx-background-color: #ffffff;
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-border-color: rgba(148,163,184,0.3);
-    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.16), 20, 0, 0, 8);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(148,163,184,0.25);
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.18), 22, 0, 0, 9);
 }
 
 .dialog-pane.app-dialog .header-panel {
-    -fx-background-color: #f1f5ff;
-    -fx-background-radius: 16 16 0 0;
+    -fx-background-color: linear-gradient(to bottom, #f8f9ff, #eef2ff);
+    -fx-background-radius: 18 18 0 0;
 }
 
 .dialog-pane.app-dialog .content.label {
@@ -198,11 +205,11 @@
 }
 
 .dialog-pane.app-dialog .button-bar .button {
-    -fx-background-radius: 10;
+    -fx-background-radius: 12;
 }
 
 .form-grid {
-    -fx-padding: 16;
-    -fx-hgap: 12;
-    -fx-vgap: 12;
+    -fx-padding: 18;
+    -fx-hgap: 14;
+    -fx-vgap: 14;
 }
