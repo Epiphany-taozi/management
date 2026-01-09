@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.ryan.property.dao.StaffDao;
 import com.ryan.property.model.Staff;
+import com.ryan.property.ui.UiStyler;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,9 +36,11 @@ public class StaffListView extends BorderPane {
     private String currentKeyword = "";
 
     public StaffListView() {
-        setPadding(new Insets(12));
+        setPadding(new Insets(16));
+        getStyleClass().add("view-root");
 
         Text title = new Text("工作人员信息（Staff）");
+        title.getStyleClass().add("view-title");
 
         Button btnAdd = new Button("新增");
         Button btnEdit = new Button("修改");
@@ -53,9 +56,17 @@ public class StaffListView extends BorderPane {
         btnClear.setOnAction(e -> onClearSearch());
         btnRefresh.setOnAction(e -> reload());
 
+        btnAdd.getStyleClass().add("btn-primary");
+        btnEdit.getStyleClass().add("btn-secondary");
+        btnDel.getStyleClass().add("btn-danger");
+        btnSearch.getStyleClass().add("btn-primary");
+        btnClear.getStyleClass().add("btn-ghost");
+        btnRefresh.getStyleClass().add("btn-secondary");
+
         keywordField.setPromptText("按姓名/手机号/角色搜索");
         keywordField.setPrefWidth(240);
         keywordField.setOnAction(e -> onSearch());
+        UiStyler.applyInputStyles(keywordField);
 
         ToolBar toolBar = new ToolBar(
                 title,
@@ -69,11 +80,14 @@ public class StaffListView extends BorderPane {
                 new Separator(),
                 btnRefresh
         );
+        toolBar.getStyleClass().add("app-toolbar");
 
         setTop(toolBar);
 
         buildTable();
+        table.getStyleClass().add("app-table");
         setCenter(table);
+        BorderPane.setMargin(table, new Insets(12, 0, 0, 0));
 
         table.setRowFactory(tv -> {
             TableRow<Staff> row = new TableRow<>();
@@ -190,6 +204,7 @@ public class StaffListView extends BorderPane {
         Dialog<Staff> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setHeaderText(null);
+        UiStyler.applyDialogStyles(dialog);
 
         ButtonType okType = new ButtonType("确定", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okType, ButtonType.CANCEL);
@@ -197,6 +212,7 @@ public class StaffListView extends BorderPane {
         TextField tfName = new TextField();
         TextField tfRole = new TextField();
         TextField tfPhone = new TextField();
+        UiStyler.applyInputStyles(tfName, tfRole, tfPhone);
 
         tfName.setPromptText("例如：李四");
         tfRole.setPromptText("例如：保安/保洁");
@@ -212,6 +228,7 @@ public class StaffListView extends BorderPane {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(14));
+        grid.getStyleClass().add("form-grid");
 
         int r = 0;
         grid.add(new Label("姓名*"), 0, r);    grid.add(tfName, 1, r++);
@@ -253,6 +270,7 @@ public class StaffListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
@@ -261,6 +279,7 @@ public class StaffListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
@@ -269,6 +288,7 @@ public class StaffListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 }

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.ryan.property.dao.AssetDao;
 import com.ryan.property.model.Asset;
+import com.ryan.property.ui.UiStyler;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,9 +37,11 @@ public class AssetListView extends BorderPane {
     private String currentKeyword = "";
 
     public AssetListView() {
-        setPadding(new Insets(12));
+        setPadding(new Insets(16));
+        getStyleClass().add("view-root");
 
         Text title = new Text("公共财产信息（Assets）");
+        title.getStyleClass().add("view-title");
 
         Button btnAdd = new Button("新增");
         Button btnEdit = new Button("修改");
@@ -54,9 +57,17 @@ public class AssetListView extends BorderPane {
         btnClear.setOnAction(e -> onClearSearch());
         btnRefresh.setOnAction(e -> reload());
 
+        btnAdd.getStyleClass().add("btn-primary");
+        btnEdit.getStyleClass().add("btn-secondary");
+        btnDel.getStyleClass().add("btn-danger");
+        btnSearch.getStyleClass().add("btn-primary");
+        btnClear.getStyleClass().add("btn-ghost");
+        btnRefresh.getStyleClass().add("btn-secondary");
+
         keywordField.setPromptText("按名称/位置/状态搜索");
         keywordField.setPrefWidth(240);
         keywordField.setOnAction(e -> onSearch());
+        UiStyler.applyInputStyles(keywordField);
 
         ToolBar toolBar = new ToolBar(
                 title,
@@ -70,11 +81,14 @@ public class AssetListView extends BorderPane {
                 new Separator(),
                 btnRefresh
         );
+        toolBar.getStyleClass().add("app-toolbar");
 
         setTop(toolBar);
 
         buildTable();
+        table.getStyleClass().add("app-table");
         setCenter(table);
+        BorderPane.setMargin(table, new Insets(12, 0, 0, 0));
 
         table.setRowFactory(tv -> {
             TableRow<Asset> row = new TableRow<>();
@@ -191,6 +205,7 @@ public class AssetListView extends BorderPane {
         Dialog<Asset> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setHeaderText(null);
+        UiStyler.applyDialogStyles(dialog);
 
         ButtonType okType = new ButtonType("确定", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okType, ButtonType.CANCEL);
@@ -198,6 +213,7 @@ public class AssetListView extends BorderPane {
         TextField tfName = new TextField();
         TextField tfLocation = new TextField();
         ComboBox<String> statusBox = new ComboBox<>();
+        UiStyler.applyInputStyles(tfName, tfLocation, statusBox);
 
         tfName.setPromptText("例如：电梯");
         tfLocation.setPromptText("例如：1号楼大厅");
@@ -214,6 +230,7 @@ public class AssetListView extends BorderPane {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(14));
+        grid.getStyleClass().add("form-grid");
 
         int r = 0;
         grid.add(new Label("名称*"), 0, r);    grid.add(tfName, 1, r++);
@@ -255,6 +272,7 @@ public class AssetListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
@@ -263,6 +281,7 @@ public class AssetListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
@@ -271,6 +290,7 @@ public class AssetListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 }
