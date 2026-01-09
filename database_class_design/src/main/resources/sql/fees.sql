@@ -5,12 +5,14 @@ CREATE TABLE fees (
     amount DECIMAL(12, 2) NOT NULL,
     paid_at DATETIME,
     status VARCHAR(20) NOT NULL,
+
     INDEX idx_fees_owner_id (owner_id),
     INDEX idx_fees_paid_at (paid_at),
     INDEX idx_fees_fee_type (fee_type),
+
     CONSTRAINT fk_fees_owner
         FOREIGN KEY (owner_id)
-        REFERENCES owner (id)
+        REFERENCES owners (id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
 );
