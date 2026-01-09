@@ -162,10 +162,20 @@ public class ComplaintListView extends BorderPane {
     }
 
     private void reload() {
-        Long ownerId = parseOwnerId();
+        Long ownerId;
+        try {
+            ownerId = parseOwnerId();
+        } catch (IllegalArgumentException ex) {
+            return;
+        }
         String status = statusCombo.getValue();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
+
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            alertWarn("提示", "开始日期不能晚于结束日期。");
+            return;
+        }
 
         data.setAll(complaintDao.findByFilters(ownerId, status, startDate, endDate));
         System.out.println("[UI] Complaint list loaded: " + data.size());
@@ -178,7 +188,7 @@ public class ComplaintListView extends BorderPane {
             return Long.parseLong(raw);
         } catch (NumberFormatException ex) {
             alertWarn("提示", "业主ID请输入数字。");
-            return null;
+            throw new IllegalArgumentException("ownerId must be numeric", ex);
         }
     }
 
