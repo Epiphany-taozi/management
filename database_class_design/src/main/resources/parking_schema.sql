@@ -13,6 +13,8 @@ CREATE TABLE parking_usage (
     start_time DATETIME NOT NULL,
     end_time DATETIME,
     fee DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    INDEX idx_parking_usage_slot_id (slot_id),
+    INDEX idx_parking_usage_owner_id (owner_id),
     CONSTRAINT fk_parking_usage_slot
         FOREIGN KEY (slot_id) REFERENCES parking_slots(id),
     CONSTRAINT fk_parking_usage_owner
