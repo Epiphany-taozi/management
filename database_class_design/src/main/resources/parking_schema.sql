@@ -14,7 +14,9 @@ CREATE TABLE parking_usage (
     end_time DATETIME,
     fee DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
     CONSTRAINT fk_parking_usage_slot
-        FOREIGN KEY (slot_id) REFERENCES parking_slots(id)
+        FOREIGN KEY (slot_id) REFERENCES parking_slots(id),
+    CONSTRAINT fk_parking_usage_owner
+        FOREIGN KEY (owner_id) REFERENCES owners(id)
 );
 
 -- Annual statistics: usage count and total fee grouped by year
