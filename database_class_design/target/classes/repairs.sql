@@ -18,8 +18,12 @@ CREATE TABLE IF NOT EXISTS repairs (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-  CONSTRAINT fk_repairs_owner FOREIGN KEY (owner_id) REFERENCES owner(id)
-);
+  CONSTRAINT fk_repairs_owner
+    FOREIGN KEY (owner_id)
+    REFERENCES owners (id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- =========================
 -- Repair logs: 报修处理日志（历史记录）
@@ -30,8 +34,14 @@ CREATE TABLE IF NOT EXISTS repair_logs (
   handler VARCHAR(100) NOT NULL,
   action VARCHAR(100) NOT NULL,
   action_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (repair_id) REFERENCES repairs(id)
-);
+
+  CONSTRAINT fk_repair_logs_repair
+    FOREIGN KEY (repair_id)
+    REFERENCES repairs (id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- =========================
 -- 查询：带可选 status 过滤 + 返回“最后处理时间”

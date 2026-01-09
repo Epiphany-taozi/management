@@ -9,6 +9,7 @@ com\ryan\property\ui\StaffListView.class
 com\ryan\property\ui\OwnerListView.class
 com\ryan\property\db\DbConfig.class
 com\ryan\property\fees\FeeRecord.class
+com\ryan\property\db\DbPing.class
 com\ryan\property\model\ComplaintReply.class
 com\ryan\property\model\Staff.class
 com\ryan\property\MainApp.class

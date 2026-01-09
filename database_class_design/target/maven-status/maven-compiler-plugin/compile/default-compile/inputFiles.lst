@@ -7,6 +7,7 @@ F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\da
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\dao\StaffDao.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\db\DbConfig.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\db\DbConnection.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\db\DbPing.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeFilter.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeQueryService.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeRecord.java
