@@ -6,39 +6,38 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ryan.property.model.Owner;
+import com.ryan.property.model.Staff;
 import com.ryan.property.util.DBUtil;
 
-public class OwnerDao {
+public class StaffDao {
 
-    public List<Owner> findAll() {
+    public List<Staff> findAll() {
         String sql = """
-                SELECT id, name, phone, building, unit
-                FROM owners
+                SELECT id, name, role, phone
+                FROM staff
                 ORDER BY id ASC
                 """;
         return queryList(sql, null);
     }
 
-    public List<Owner> findByKeyword(String keyword) {
+    public List<Staff> findByKeyword(String keyword) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return findAll();
         }
         String sql = """
-                SELECT id, name, phone, building, unit
-                FROM owners
+                SELECT id, name, role, phone
+                FROM staff
                 WHERE name LIKE ?
                    OR phone LIKE ?
-                   OR building LIKE ?
-                   OR unit LIKE ?
+                   OR role LIKE ?
                 ORDER BY id ASC
                 """;
         String like = like(keyword);
-        return queryList(sql, new String[] { like, like, like, like });
+        return queryList(sql, new String[] { like, like, like });
     }
 
-    private List<Owner> queryList(String sql, String[] params) {
-        List<Owner> list = new ArrayList<>();
+    private List<Staff> queryList(String sql, String[] params) {
+        List<Staff> list = new ArrayList<>();
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -51,34 +50,32 @@ public class OwnerDao {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Owner o = new Owner();
-                    o.setId(rs.getLong("id"));
-                    o.setName(rs.getString("name"));
-                    o.setPhone(rs.getString("phone"));
-                    o.setBuilding(rs.getString("building"));
-                    o.setUnit(rs.getString("unit"));
-                    list.add(o);
+                    Staff s = new Staff();
+                    s.setId(rs.getLong("id"));
+                    s.setName(rs.getString("name"));
+                    s.setRole(rs.getString("role"));
+                    s.setPhone(rs.getString("phone"));
+                    list.add(s);
                 }
             }
         } catch (Exception e) {
-            System.out.println("[DAO] OwnerDao query failed: " + e.getMessage());
+            System.out.println("[DAO] StaffDao query failed: " + e.getMessage());
             e.printStackTrace();
         }
         return list;
     }
 
-    public long insert(Owner o) {
+    public long insert(Staff s) {
         String sql = """
-                INSERT INTO owners(name, phone, building, unit)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO staff(name, role, phone)
+                VALUES (?, ?, ?)
                 """;
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setString(1, o.getName());
-            ps.setString(2, o.getPhone());
-            ps.setString(3, o.getBuilding());
-            ps.setString(4, o.getUnit());
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getRole());
+            ps.setString(3, s.getPhone());
 
             int affected = ps.executeUpdate();
             if (affected == 0) return -1;
@@ -94,20 +91,19 @@ public class OwnerDao {
         }
     }
 
-    public boolean update(Owner o) {
+    public boolean update(Staff s) {
         String sql = """
-                UPDATE owners
-                SET name=?, phone=?, building=?, unit=?
+                UPDATE staff
+                SET name=?, role=?, phone=?
                 WHERE id=?
                 """;
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, o.getName());
-            ps.setString(2, o.getPhone());
-            ps.setString(3, o.getBuilding());
-            ps.setString(4, o.getUnit());
-            ps.setLong(5, o.getId());
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getRole());
+            ps.setString(3, s.getPhone());
+            ps.setLong(4, s.getId());
 
             return ps.executeUpdate() == 1;
         } catch (Exception e) {
@@ -118,7 +114,7 @@ public class OwnerDao {
     }
 
     public boolean deleteById(long id) {
-        String sql = "DELETE FROM owners WHERE id=?";
+        String sql = "DELETE FROM staff WHERE id=?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
