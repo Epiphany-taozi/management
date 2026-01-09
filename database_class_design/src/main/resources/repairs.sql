@@ -61,7 +61,7 @@ SELECT
   COALESCE(MAX(l.action_time), r.updated_at) AS last_action_time
 FROM repairs r
 LEFT JOIN repair_logs l ON l.repair_id = r.id
-WHERE (:status IS NULL OR r.status = :status)
+WHERE (? IS NULL OR r.status = ?)
 GROUP BY
   r.id, r.owner_id, r.type, r.title, r.status, r.cost,
   r.requested_at, r.completed_at, r.updated_at

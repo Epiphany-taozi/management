@@ -1,0 +1,105 @@
+/* ===== 全局基础 ===== */
+.root {
+    -fx-font-family: "Microsoft YaHei UI", "PingFang SC", "Segoe UI", Arial;
+    -fx-font-size: 13px;
+    -fx-background-color: #F6F7FB;
+}
+
+/* 容器卡片化（你可以给 BorderPane / VBox 加 styleClass: card） */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(20,20,20,0.08), 18, 0, 0, 6);
+}
+
+/* ===== 工具栏 / 顶部条 ===== */
+.tool-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 6 6 10 6;
+}
+.tool-bar .label, .tool-bar .text {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+}
+
+/* ===== 按钮 ===== */
+.button {
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-background-color: #2F6BFF;
+    -fx-text-fill: white;
+}
+.button:hover {
+    -fx-background-color: #255BE6;
+}
+.button:pressed {
+    -fx-background-color: #1F4FC7;
+}
+
+/* 次要按钮（给按钮加 styleClass: btn-secondary） */
+.btn-secondary {
+    -fx-background-color: #EEF2FF;
+    -fx-text-fill: #2F3A4A;
+}
+.btn-secondary:hover { -fx-background-color: #E3E9FF; }
+.btn-danger {
+    -fx-background-color: #E84C3D;
+}
+.btn-danger:hover { -fx-background-color: #D94336; }
+
+/* ===== 输入框 ===== */
+.text-field, .combo-box, .date-picker, .text-area {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #E5E7EB;
+    -fx-background-color: white;
+    -fx-padding: 8 10;
+}
+.text-field:focused, .combo-box:focused, .date-picker:focused, .text-area:focused {
+    -fx-border-color: #2F6BFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(47,107,255,0.18), 12, 0, 0, 0);
+}
+
+/* ===== 表格 ===== */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 14;
+}
+.table-view .column-header-background {
+    -fx-background-color: white;
+    -fx-background-radius: 14 14 0 0;
+    -fx-padding: 6 6 6 6;
+}
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #111827;
+    -fx-font-weight: 700;
+}
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+.table-row-cell:odd {
+    -fx-background-color: #FBFCFF;
+}
+.table-row-cell:selected {
+    -fx-background-color: #E8F0FF;
+}
+.table-view .table-cell {
+    -fx-padding: 10 8;
+    -fx-text-fill: #1F2937;
+}
+
+/* ===== 对话框 ===== */
+.dialog-pane {
+    -fx-background-color: white;
+}
+.dialog-pane .header-panel {
+    -fx-background-color: white;
+}
