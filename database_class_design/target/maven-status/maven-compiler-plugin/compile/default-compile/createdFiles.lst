@@ -1,0 +1,6 @@
+com\ryan\property\dao\OwnerDao.class
+com\ryan\property\model\Owner.class
+com\ryan\property\util\AppConfig.class
+com\ryan\property\ui\OwnerListView.class
+com\ryan\property\util\DBUtil.class
+com\ryan\property\MainApp.class

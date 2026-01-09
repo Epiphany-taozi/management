@@ -1,0 +1,12 @@
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\controller\LoginController.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\controller\OwnerController.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\dao\BaseDao.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\dao\OwnerDao.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\MainApp.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\model\House.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\model\Owner.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\service\OwnerService.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\ui\OwnerListView.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\util\AlertUtil.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\util\AppConfig.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\database_class_design\src\main\java\com\ryan\property\util\DBUtil.java
