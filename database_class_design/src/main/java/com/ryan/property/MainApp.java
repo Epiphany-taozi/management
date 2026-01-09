@@ -2,7 +2,9 @@ package com.ryan.property;
 
 import com.ryan.property.ui.AssetListView;
 import com.ryan.property.ui.ComplaintListView;
+import com.ryan.property.ui.FeeDataView;
 import com.ryan.property.ui.OwnerListView;
+import com.ryan.property.ui.ParkingUsageView;
 import com.ryan.property.ui.StaffListView;
 import com.ryan.property.ui.UiStyler;
 
@@ -45,8 +47,16 @@ public class MainApp extends Application {
         complaintTab.setClosable(false);
         complaintTab.setContent(new ComplaintListView());
 
+        Tab parkingTab = new Tab("停车位");
+        parkingTab.setClosable(false);
+        parkingTab.setContent(new ParkingUsageView());
+
+        Tab feeTab = new Tab("收费数据");
+        feeTab.setClosable(false);
+        feeTab.setContent(new FeeDataView());
+
         tabPane.getStyleClass().add("app-tabs");
-        tabPane.getTabs().setAll(ownersTab, staffTab, assetsTab, complaintTab);
+        tabPane.getTabs().setAll(ownersTab, staffTab, assetsTab, complaintTab, parkingTab, feeTab);
 
         BorderPane root = new BorderPane();
         root.getStyleClass().add("app-root");

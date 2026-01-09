@@ -6,34 +6,55 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeeQueryService {
   public List<FeeRecord> query(FeeFilter filter) {
     StringBuilder sql = new StringBuilder(
-        "SELECT fee_type, status, amount, paid_date FROM fees WHERE 1=1");
+        """
+            SELECT f.id,
+                   f.owner_id,
+                   o.name AS owner_name,
+                   f.fee_type,
+                   f.status,
+                   f.amount,
+                   f.paid_at
+            FROM fees f
+            JOIN owners o ON o.id = f.owner_id
+            WHERE 1=1
+            """);
     List<Object> parameters = new ArrayList<>();
 
     if (filter != null) {
+      if (filter.hasOwnerKeyword()) {
+        sql.append(" AND (o.name LIKE ? OR o.phone LIKE ?)");
+        String like = like(filter.ownerKeyword());
+        parameters.add(like);
+        parameters.add(like);
+      }
       if (filter.hasFeeType()) {
-        sql.append(" AND fee_type = ?");
+        sql.append(" AND f.fee_type = ?");
         parameters.add(filter.feeType());
       }
       if (filter.hasStatus()) {
-        sql.append(" AND status = ?");
+        sql.append(" AND f.status = ?");
         parameters.add(filter.status());
       }
       if (filter.hasStartDate()) {
-        sql.append(" AND fee_date >= ?");
-        parameters.add(Date.valueOf(filter.startDate()));
+        sql.append(" AND f.paid_at >= ?");
+        parameters.add(toStartOfDay(filter.startDate()));
       }
       if (filter.hasEndDate()) {
-        sql.append(" AND fee_date <= ?");
-        parameters.add(Date.valueOf(filter.endDate()));
+        sql.append(" AND f.paid_at <= ?");
+        parameters.add(toEndOfDay(filter.endDate()));
       }
     }
+
+    sql.append(" ORDER BY f.id DESC");
 
     try (Connection connection = DbConnection.open();
         PreparedStatement statement = prepare(connection, sql, parameters);
@@ -58,13 +79,14 @@ public class FeeQueryService {
   }
 
   private FeeRecord mapRecord(ResultSet resultSet) throws SQLException {
-    String feeType = resultSet.getString("fee_type");
-    String status = resultSet.getString("status");
     return new FeeRecord(
-        feeType,
-        status,
+        resultSet.getLong("id"),
+        resultSet.getLong("owner_id"),
+        resultSet.getString("owner_name"),
+        resultSet.getString("fee_type"),
+        resultSet.getString("status"),
         resultSet.getBigDecimal("amount"),
-        toLocalDate(resultSet.getDate("paid_date")));
+        toLocalDate(resultSet.getDate("paid_at")));
   }
 
   private LocalDate toLocalDate(Date date) {
@@ -72,5 +94,46 @@ public class FeeQueryService {
       return null;
     }
     return date.toLocalDate();
+  }
+
+  private Timestamp toStartOfDay(LocalDate date) {
+    return Timestamp.valueOf(date.atStartOfDay());
+  }
+
+  private Timestamp toEndOfDay(LocalDate date) {
+    return Timestamp.valueOf(date.atTime(LocalTime.MAX));
+  }
+
+  private String like(String keyword) {
+    return "%" + keyword.trim() + "%";
+  }
+
+  public List<FeeSummary> querySummary() {
+    String sql = """
+        SELECT YEAR(paid_at) AS paid_year,
+               fee_type,
+               SUM(amount) AS total_amount,
+               COUNT(*) AS total_count
+        FROM fees
+        WHERE paid_at IS NOT NULL
+        GROUP BY YEAR(paid_at), fee_type
+        ORDER BY paid_year, fee_type
+        """;
+
+    try (Connection connection = DbConnection.open();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery()) {
+      List<FeeSummary> summaries = new ArrayList<>();
+      while (resultSet.next()) {
+        summaries.add(new FeeSummary(
+            resultSet.getInt("paid_year"),
+            resultSet.getString("fee_type"),
+            resultSet.getBigDecimal("total_amount"),
+            resultSet.getInt("total_count")));
+      }
+      return summaries;
+    } catch (SQLException error) {
+      throw new IllegalStateException("Failed to query fee summary", error);
+    }
   }
 }
