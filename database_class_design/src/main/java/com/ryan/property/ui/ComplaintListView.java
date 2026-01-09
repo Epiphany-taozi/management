@@ -16,7 +16,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
@@ -34,6 +33,7 @@ import javafx.scene.text.Text;
 public class ComplaintListView extends BorderPane {
 
     private final ComplaintDao complaintDao = new ComplaintDao();
+
     private final ObservableList<Complaint> data = FXCollections.observableArrayList();
     private final TableView<Complaint> table = new TableView<>(data);
 
@@ -83,21 +83,34 @@ public class ComplaintListView extends BorderPane {
     }
 
     private HBox buildFilterBar() {
-        ownerIdField.setPromptText("业主ID");
+        ownerIdField.setPromptText("业主ID（可空）");
+
+        // 状态值建议与你数据库/业务状态保持一致
+        // 你也可以按自己实际情况加/减，例如：CLOSED / REJECTED 等
         statusCombo.getItems().setAll("", "NEW", "IN_PROGRESS", "RESOLVED");
         statusCombo.setValue("");
+
         startDatePicker.setPromptText("开始日期");
         endDatePicker.setPromptText("结束日期");
 
         Button btnFilter = new Button("查询");
+        Button btnReset = new Button("重置");
+
         btnFilter.setOnAction(e -> reload());
+        btnReset.setOnAction(e -> {
+            ownerIdField.clear();
+            statusCombo.setValue("");
+            startDatePicker.setValue(null);
+            endDatePicker.setValue(null);
+            reload();
+        });
 
         HBox filterBar = new HBox(10,
                 new Label("业主ID"), ownerIdField,
                 new Label("状态"), statusCombo,
                 new Label("开始"), startDatePicker,
                 new Label("结束"), endDatePicker,
-                btnFilter
+                btnFilter, btnReset
         );
         filterBar.setPadding(new Insets(10, 0, 0, 0));
         return filterBar;
@@ -113,13 +126,19 @@ public class ComplaintListView extends BorderPane {
         colOwnerId.setCellValueFactory(c -> new javafx.beans.property.SimpleLongProperty(c.getValue().getOwnerId()));
 
         TableColumn<Complaint, String> colTitle = new TableColumn<>("标题");
-        colTitle.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getTitle()));
+        colTitle.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+                safeStr(c.getValue().getTitle())
+        ));
 
         TableColumn<Complaint, String> colContent = new TableColumn<>("内容");
-        colContent.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getContent()));
+        colContent.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+                safeStr(c.getValue().getContent())
+        ));
 
         TableColumn<Complaint, String> colStatus = new TableColumn<>("状态");
-        colStatus.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getStatus()));
+        colStatus.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+                safeStr(c.getValue().getStatus())
+        ));
 
         TableColumn<Complaint, String> colCreatedAt = new TableColumn<>("创建时间");
         colCreatedAt.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
@@ -136,21 +155,9 @@ public class ComplaintListView extends BorderPane {
                 summarizeReply(c.getValue().getLatestReplyContent(), c.getValue().getLatestReplyTime())
         ));
 
-        table.getColumns().setAll(colId, colOwnerId, colTitle, colContent, colStatus, colCreatedAt, colUpdatedAt, colLatestReply);
-    }
-
-    private String summarizeReply(String content, java.sql.Timestamp time) {
-        if (content == null || content.isBlank()) {
-            return "";
-        }
-        String trimmed = content.trim().replace("\n", " ");
-        if (trimmed.length() > 30) {
-            trimmed = trimmed.substring(0, 30) + "...";
-        }
-        if (time == null) {
-            return trimmed;
-        }
-        return trimmed + " (" + time.toString() + ")";
+        table.getColumns().setAll(
+                colId, colOwnerId, colTitle, colContent, colStatus, colCreatedAt, colUpdatedAt, colLatestReply
+        );
     }
 
     private void reload() {
@@ -222,7 +229,7 @@ public class ComplaintListView extends BorderPane {
         taContent.setPrefRowCount(4);
 
         tfOwnerId.setPromptText("例如：1001");
-        tfTitle.setPromptText("例如：电梯故障");
+        tfTitle.setPromptText("例如：噪音扰民");
         taContent.setPromptText("请输入投诉内容");
 
         GridPane grid = new GridPane();
@@ -246,18 +253,18 @@ public class ComplaintListView extends BorderPane {
                         || taContent.getText().trim().isEmpty()
         );
 
-        tfOwnerId.textProperty().addListener((a,b,c) -> validator.run());
-        tfTitle.textProperty().addListener((a,b,c) -> validator.run());
-        taContent.textProperty().addListener((a,b,c) -> validator.run());
+        tfOwnerId.textProperty().addListener((a, b, c) -> validator.run());
+        tfTitle.textProperty().addListener((a, b, c) -> validator.run());
+        taContent.textProperty().addListener((a, b, c) -> validator.run());
 
         validator.run();
 
         dialog.setResultConverter(btn -> {
             if (btn != okType) return null;
-            String ownerIdRaw = tfOwnerId.getText().trim();
+
             long ownerId;
             try {
-                ownerId = Long.parseLong(ownerIdRaw);
+                ownerId = Long.parseLong(tfOwnerId.getText().trim());
             } catch (NumberFormatException ex) {
                 alertWarn("提示", "业主ID请输入数字。");
                 return null;
@@ -313,22 +320,23 @@ public class ComplaintListView extends BorderPane {
                         || statusBox.getValue() == null
         );
 
-        tfStaffId.textProperty().addListener((a,b,c) -> validator.run());
-        taReply.textProperty().addListener((a,b,c) -> validator.run());
-        statusBox.valueProperty().addListener((a,b,c) -> validator.run());
+        tfStaffId.textProperty().addListener((a, b, c) -> validator.run());
+        taReply.textProperty().addListener((a, b, c) -> validator.run());
+        statusBox.valueProperty().addListener((a, b, c) -> validator.run());
 
         validator.run();
 
         dialog.setResultConverter(btn -> {
             if (btn != okType) return null;
-            String staffIdRaw = tfStaffId.getText().trim();
+
             long staffId;
             try {
-                staffId = Long.parseLong(staffIdRaw);
+                staffId = Long.parseLong(tfStaffId.getText().trim());
             } catch (NumberFormatException ex) {
                 alertWarn("提示", "员工ID请输入数字。");
                 return null;
             }
+
             ReplyForm form = new ReplyForm();
             form.staffId = staffId;
             form.replyContent = taReply.getText().trim();
@@ -337,6 +345,18 @@ public class ComplaintListView extends BorderPane {
         });
 
         return dialog.showAndWait();
+    }
+
+    private String summarizeReply(String content, java.sql.Timestamp time) {
+        if (content == null || content.isBlank()) return "";
+        String trimmed = content.trim().replace("\n", " ");
+        if (trimmed.length() > 30) trimmed = trimmed.substring(0, 30) + "...";
+        if (time == null) return trimmed;
+        return trimmed + " (" + time.toString() + ")";
+    }
+
+    private String safeStr(String s) {
+        return s == null ? "" : s;
     }
 
     private void alertInfo(String title, String msg) {
