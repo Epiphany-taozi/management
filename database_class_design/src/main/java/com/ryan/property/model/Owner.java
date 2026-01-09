@@ -1,47 +1,59 @@
 package com.ryan.property.model;
 
-import java.sql.Timestamp;
-
 public class Owner {
     private long id;
     private String name;
     private String phone;
     private String building;
-    private String room;
-    private String idCard;
-    private Timestamp createdAt;
+    private String unit;
 
     public Owner() {}
 
-    public Owner(long id, String name, String phone, String building, String room, String idCard, Timestamp createdAt) {
+    public Owner(long id, String name, String phone, String building, String unit) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.building = building;
-        this.room = room;
-        this.idCard = idCard;
-        this.createdAt = createdAt;
+        this.unit = unit;
     }
 
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    public long getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getName() {
+        return name;
+    }
 
-    public String getBuilding() { return building; }
-    public void setBuilding(String building) { this.building = building; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getRoom() { return room; }
-    public void setRoom(String room) { this.room = room; }
+    public String getPhone() {
+        return phone;
+    }
 
-    // Java 字段叫 idCard，对应数据库列 id_card
-    public String getIdCard() { return idCard; }
-    public void setIdCard(String idCard) { this.idCard = idCard; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 }
