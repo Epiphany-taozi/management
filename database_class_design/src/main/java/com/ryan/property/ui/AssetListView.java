@@ -15,6 +15,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -196,16 +197,17 @@ public class AssetListView extends BorderPane {
 
         TextField tfName = new TextField();
         TextField tfLocation = new TextField();
-        TextField tfStatus = new TextField();
+        ComboBox<String> statusBox = new ComboBox<>();
 
         tfName.setPromptText("例如：电梯");
         tfLocation.setPromptText("例如：1号楼大厅");
-        tfStatus.setPromptText("例如：正常/维修中");
+        statusBox.getItems().setAll("正常", "维修中", "停用");
+        statusBox.setPromptText("请选择状态");
 
         if (origin != null) {
             tfName.setText(origin.getName());
             tfLocation.setText(origin.getLocation());
-            tfStatus.setText(origin.getStatus());
+            statusBox.setValue(origin.getStatus());
         }
 
         GridPane grid = new GridPane();
@@ -216,7 +218,7 @@ public class AssetListView extends BorderPane {
         int r = 0;
         grid.add(new Label("名称*"), 0, r);    grid.add(tfName, 1, r++);
         grid.add(new Label("位置*"), 0, r);    grid.add(tfLocation, 1, r++);
-        grid.add(new Label("状态*"), 0, r);    grid.add(tfStatus, 1, r++);
+        grid.add(new Label("状态*"), 0, r);    grid.add(statusBox, 1, r++);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -226,12 +228,12 @@ public class AssetListView extends BorderPane {
         Runnable validator = () -> okBtn.setDisable(
                 tfName.getText().trim().isEmpty()
                         || tfLocation.getText().trim().isEmpty()
-                        || tfStatus.getText().trim().isEmpty()
+                        || statusBox.getValue() == null
         );
 
         tfName.textProperty().addListener((a,b,c) -> validator.run());
         tfLocation.textProperty().addListener((a,b,c) -> validator.run());
-        tfStatus.textProperty().addListener((a,b,c) -> validator.run());
+        statusBox.valueProperty().addListener((a,b,c) -> validator.run());
 
         validator.run();
 
@@ -241,7 +243,7 @@ public class AssetListView extends BorderPane {
             Asset a = new Asset();
             a.setName(tfName.getText().trim());
             a.setLocation(tfLocation.getText().trim());
-            a.setStatus(tfStatus.getText().trim());
+            a.setStatus(statusBox.getValue());
             return a;
         });
 

@@ -4,7 +4,7 @@ CREATE TABLE fees (
     fee_type VARCHAR(50) NOT NULL,
     amount DECIMAL(12, 2) NOT NULL,
     paid_at DATETIME,
-    status VARCHAR(20) NOT NULL,
+    status ENUM('UNPAID', 'PAID') NOT NULL DEFAULT 'UNPAID',
 
     INDEX idx_fees_owner_id (owner_id),
     INDEX idx_fees_paid_at (paid_at),
