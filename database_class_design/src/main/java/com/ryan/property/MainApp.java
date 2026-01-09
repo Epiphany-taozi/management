@@ -1,6 +1,7 @@
 package com.ryan.property;
 
 import com.ryan.property.ui.AssetListView;
+import com.ryan.property.ui.ComplaintListView;
 import com.ryan.property.ui.OwnerListView;
 import com.ryan.property.ui.StaffListView;
 
@@ -30,9 +31,13 @@ public class MainApp extends Application {
         assetsTab.setClosable(false);
         assetsTab.setContent(new AssetListView());
 
-        tabPane.getTabs().addAll(ownersTab, staffTab, assetsTab);
+        Tab complaintTab = new Tab("投诉管理");
+        complaintTab.setClosable(false);
+        complaintTab.setContent(new ComplaintListView());
 
-        Scene scene = new Scene(tabPane, 980, 520);
+        tabPane.getTabs().setAll(ownersTab, staffTab, assetsTab, complaintTab);
+
+        Scene scene = new Scene(tabPane, 1200, 620);
         stage.setTitle("Property Management System");
         stage.setScene(scene);
         stage.show();
