@@ -4,6 +4,7 @@ import com.ryan.property.ui.AssetListView;
 import com.ryan.property.ui.ComplaintListView;
 import com.ryan.property.ui.OwnerListView;
 import com.ryan.property.ui.StaffListView;
+import com.ryan.property.ui.UiStyler;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -35,9 +36,11 @@ public class MainApp extends Application {
         complaintTab.setClosable(false);
         complaintTab.setContent(new ComplaintListView());
 
+        tabPane.getStyleClass().add("app-tabs");
         tabPane.getTabs().setAll(ownersTab, staffTab, assetsTab, complaintTab);
 
         Scene scene = new Scene(tabPane, 1200, 620);
+        scene.getStylesheets().add(MainApp.class.getResource(UiStyler.APP_STYLESHEET).toExternalForm());
         stage.setTitle("Property Management System");
         stage.setScene(scene);
         stage.show();
