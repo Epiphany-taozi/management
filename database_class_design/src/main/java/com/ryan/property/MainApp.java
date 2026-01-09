@@ -1,6 +1,6 @@
 package com.ryan.property;
 
-import com.ryan.property.ui.OwnerListView;
+import com.ryan.property.ui.ComplaintListView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,11 +12,11 @@ public class MainApp extends Application {
     public void start(Stage stage) {
         System.out.println("[APP] start() entered");
 
-        // ✅ 主界面：业主列表
-        OwnerListView root = new OwnerListView();
+        // ✅ 主界面：投诉列表
+        ComplaintListView root = new ComplaintListView();
 
         Scene scene = new Scene(root, 980, 520);
-        stage.setTitle("Property Management System - Owner Management");
+        stage.setTitle("Property Management System - Complaint Management");
         stage.setScene(scene);
         stage.show();
     }
