@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS assets (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     location VARCHAR(100) NOT NULL,
-    status VARCHAR(30) NOT NULL
+    status ENUM('正常', '维修中', '停用') NOT NULL DEFAULT '正常'
 );

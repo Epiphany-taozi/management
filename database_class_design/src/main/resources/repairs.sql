@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS repairs (
   title VARCHAR(255) NOT NULL,           -- 简短标题
   description TEXT,                      -- 详细描述
 
-  status VARCHAR(30) NOT NULL,           -- 当前状态（如 NEW/IN_PROGRESS/DONE/CLOSED）
+  status ENUM('NEW', 'IN_PROGRESS', 'DONE', 'CLOSED') NOT NULL DEFAULT 'NEW', -- 当前状态
   cost DECIMAL(10, 2) NOT NULL DEFAULT 0,
 
   requested_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS repairs (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
+  INDEX idx_repairs_owner_id (owner_id),
   CONSTRAINT fk_repairs_owner
     FOREIGN KEY (owner_id)
     REFERENCES owners (id)
@@ -33,8 +34,9 @@ CREATE TABLE IF NOT EXISTS repair_logs (
   repair_id BIGINT NOT NULL,
   handler VARCHAR(100) NOT NULL,
   action VARCHAR(100) NOT NULL,
-  action_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  action_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+  INDEX idx_repair_logs_repair_id (repair_id),
   CONSTRAINT fk_repair_logs_repair
     FOREIGN KEY (repair_id)
     REFERENCES repairs (id)

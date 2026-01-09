@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.ryan.property.dao.ComplaintDao;
 import com.ryan.property.model.Complaint;
+import com.ryan.property.ui.UiStyler;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,9 +45,11 @@ public class ComplaintListView extends BorderPane {
     private final DatePicker endDatePicker = new DatePicker();
 
     public ComplaintListView() {
-        setPadding(new Insets(12));
+        setPadding(new Insets(16));
+        getStyleClass().add("view-root");
 
         Text title = new Text("投诉管理（Complaints）");
+        title.getStyleClass().add("view-title");
 
         Button btnAdd = new Button("登记投诉");
         Button btnReply = new Button("回复");
@@ -56,6 +59,10 @@ public class ComplaintListView extends BorderPane {
         btnReply.setOnAction(e -> onReply());
         btnRefresh.setOnAction(e -> reload());
 
+        btnAdd.getStyleClass().add("btn-primary");
+        btnReply.getStyleClass().add("btn-secondary");
+        btnRefresh.getStyleClass().add("btn-ghost");
+
         ToolBar toolBar = new ToolBar(
                 title,
                 new Separator(),
@@ -64,11 +71,15 @@ public class ComplaintListView extends BorderPane {
                 new Separator(),
                 btnRefresh
         );
+        toolBar.getStyleClass().add("app-toolbar");
 
-        setTop(new VBox(toolBar, buildFilterBar()));
+        VBox headerBox = new VBox(12, toolBar, buildFilterBar());
+        setTop(headerBox);
 
         buildTable();
+        table.getStyleClass().add("app-table");
         setCenter(table);
+        BorderPane.setMargin(table, new Insets(12, 0, 0, 0));
 
         table.setRowFactory(tv -> {
             TableRow<Complaint> row = new TableRow<>();
@@ -85,6 +96,7 @@ public class ComplaintListView extends BorderPane {
 
     private HBox buildFilterBar() {
         ownerIdField.setPromptText("业主ID（可空）");
+        UiStyler.applyInputStyles(ownerIdField, statusCombo, startDatePicker, endDatePicker);
 
         // 状态值建议与你数据库/业务状态保持一致
         // 你也可以按自己实际情况加/减，例如：CLOSED / REJECTED 等
@@ -96,6 +108,9 @@ public class ComplaintListView extends BorderPane {
 
         Button btnFilter = new Button("查询");
         Button btnReset = new Button("重置");
+
+        btnFilter.getStyleClass().add("btn-primary");
+        btnReset.getStyleClass().add("btn-ghost");
 
         btnFilter.setOnAction(e -> reload());
         btnReset.setOnAction(e -> {
@@ -113,7 +128,7 @@ public class ComplaintListView extends BorderPane {
                 new Label("结束"), endDatePicker,
                 btnFilter, btnReset
         );
-        filterBar.setPadding(new Insets(10, 0, 0, 0));
+        filterBar.getStyleClass().add("filter-bar");
         return filterBar;
     }
 
@@ -230,6 +245,7 @@ public class ComplaintListView extends BorderPane {
         Dialog<Complaint> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setHeaderText(null);
+        UiStyler.applyDialogStyles(dialog);
 
         ButtonType okType = new ButtonType("确定", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okType, ButtonType.CANCEL);
@@ -238,6 +254,7 @@ public class ComplaintListView extends BorderPane {
         TextField tfTitle = new TextField();
         TextArea taContent = new TextArea();
         taContent.setPrefRowCount(4);
+        UiStyler.applyInputStyles(tfOwnerId, tfTitle, taContent);
 
         tfOwnerId.setPromptText("例如：1001");
         tfTitle.setPromptText("例如：噪音扰民");
@@ -247,6 +264,7 @@ public class ComplaintListView extends BorderPane {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(14));
+        grid.getStyleClass().add("form-grid");
 
         int r = 0;
         grid.add(new Label("业主ID*"), 0, r);    grid.add(tfOwnerId, 1, r++);
@@ -296,6 +314,7 @@ public class ComplaintListView extends BorderPane {
         Dialog<ReplyForm> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setHeaderText(null);
+        UiStyler.applyDialogStyles(dialog);
 
         ButtonType okType = new ButtonType("确定", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okType, ButtonType.CANCEL);
@@ -306,6 +325,7 @@ public class ComplaintListView extends BorderPane {
         statusBox.getItems().setAll("IN_PROGRESS", "RESOLVED");
         statusBox.setValue("IN_PROGRESS");
         taReply.setPrefRowCount(4);
+        UiStyler.applyInputStyles(tfStaffId, taReply, statusBox);
 
         tfStaffId.setPromptText("例如：2001");
         taReply.setPromptText("请输入回复内容");
@@ -314,6 +334,7 @@ public class ComplaintListView extends BorderPane {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(14));
+        grid.getStyleClass().add("form-grid");
 
         int r = 0;
         grid.add(new Label("员工ID*"), 0, r);    grid.add(tfStaffId, 1, r++);
@@ -375,6 +396,7 @@ public class ComplaintListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
@@ -383,6 +405,7 @@ public class ComplaintListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
@@ -391,6 +414,7 @@ public class ComplaintListView extends BorderPane {
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
+        UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
     }
 
