@@ -5,6 +5,22 @@ CREATE TABLE parking_slots (
     is_occupied BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+-- Owner to parking slot mapping (one owner to one slot)
+CREATE TABLE owner_parking_slots (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    owner_id BIGINT NOT NULL,
+    slot_id BIGINT NOT NULL,
+    assigned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_owner_parking_owner_id (owner_id),
+    UNIQUE KEY uq_owner_parking_slot_id (slot_id),
+    INDEX idx_owner_parking_owner_id (owner_id),
+    INDEX idx_owner_parking_slot_id (slot_id),
+    CONSTRAINT fk_owner_parking_owner
+        FOREIGN KEY (owner_id) REFERENCES owners(id),
+    CONSTRAINT fk_owner_parking_slot
+        FOREIGN KEY (slot_id) REFERENCES parking_slots(id)
+);
+
 -- Parking usage records table
 CREATE TABLE parking_usage (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
