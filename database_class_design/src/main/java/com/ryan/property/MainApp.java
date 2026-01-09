@@ -6,11 +6,20 @@ import com.ryan.property.ui.OwnerListView;
 import com.ryan.property.ui.StaffListView;
 import com.ryan.property.ui.UiStyler;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainApp extends Application {
 
@@ -39,8 +48,50 @@ public class MainApp extends Application {
         tabPane.getStyleClass().add("app-tabs");
         tabPane.getTabs().setAll(ownersTab, staffTab, assetsTab, complaintTab);
 
-        Scene scene = new Scene(tabPane, 1200, 620);
-        scene.getStylesheets().add(MainApp.class.getResource(UiStyler.APP_STYLESHEET).toExternalForm());
+        BorderPane root = new BorderPane();
+        root.getStyleClass().add("app-root");
+        root.setPadding(new Insets(16));
+
+        HBox appShell = new HBox(12);
+        appShell.getStyleClass().add("app-shell");
+        appShell.setAlignment(Pos.CENTER_LEFT);
+
+        Label appTitle = new Label("Property Management System");
+        appTitle.getStyleClass().add("app-shell-title");
+
+        ToggleButton themeToggle = new ToggleButton("暗色模式");
+        themeToggle.getStyleClass().add("btn-secondary");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+        appShell.getChildren().addAll(appTitle, spacer, themeToggle);
+
+        root.setTop(appShell);
+        root.setCenter(tabPane);
+
+        Scene scene = new Scene(root, 1200, 680);
+        UiStyler.applySceneStyles(scene);
+
+        themeToggle.selectedProperty().addListener((obs, wasDark, isDark) -> {
+            if (isDark) {
+                if (!root.getStyleClass().contains("theme-dark")) {
+                    root.getStyleClass().add("theme-dark");
+                }
+            } else {
+                root.getStyleClass().remove("theme-dark");
+            }
+            UiStyler.setDarkMode(isDark);
+        });
+
+        tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            if (newTab != null && newTab.getContent() != null) {
+                FadeTransition fade = new FadeTransition(Duration.millis(160), newTab.getContent());
+                fade.setFromValue(0.2);
+                fade.setToValue(1.0);
+                fade.playFromStart();
+            }
+        });
+
         stage.setTitle("Property Management System");
         stage.setScene(scene);
         stage.show();

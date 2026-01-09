@@ -8,6 +8,7 @@ import com.ryan.property.model.Owner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,16 +16,16 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import com.ryan.property.ui.UiStyler;
 
 public class OwnerListView extends BorderPane {
@@ -34,14 +35,16 @@ public class OwnerListView extends BorderPane {
 
     private final TableView<Owner> table = new TableView<>(data);
     private final TextField keywordField = new TextField();
+    private final Label statusLabel = new Label("就绪");
+    private final HBox statusBar = new HBox(statusLabel);
     private String currentKeyword = "";
 
     public OwnerListView() {
         setPadding(new Insets(16));
         getStyleClass().add("view-root");
 
-        Text title = new Text("业主信息（Owners）");
-        title.getStyleClass().add("view-title");
+        Label title = new Label("业主信息");
+        title.getStyleClass().add("page-title");
 
         Button btnAdd = new Button("新增");
         Button btnEdit = new Button("修改");
@@ -69,26 +72,41 @@ public class OwnerListView extends BorderPane {
         keywordField.setOnAction(e -> onSearch());
         UiStyler.applyInputStyles(keywordField);
 
-        ToolBar toolBar = new ToolBar(
-                title,
-                new Separator(),
-                new Label("关键字:"),
-                keywordField,
-                btnSearch,
-                btnClear,
-                new Separator(),
-                btnAdd, btnEdit, btnDel,
-                new Separator(),
-                btnRefresh
-        );
-        toolBar.getStyleClass().add("app-toolbar");
+        Label keywordLabel = new Label("关键字");
+        keywordLabel.getStyleClass().add("filter-label");
 
-        setTop(toolBar);
+        HBox filterBar = new HBox(10, keywordLabel, keywordField, btnSearch, btnClear);
+        filterBar.getStyleClass().add("filter-bar");
+        filterBar.setAlignment(Pos.CENTER_LEFT);
+
+        HBox actions = new HBox(8, btnAdd, btnEdit, btnDel, btnRefresh);
+        actions.getStyleClass().add("top-bar-actions");
+        actions.setAlignment(Pos.CENTER_RIGHT);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox topBar = new HBox(12, title, spacer, actions);
+        topBar.getStyleClass().add("top-bar");
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        setTop(topBar);
 
         buildTable();
         table.getStyleClass().add("app-table");
-        setCenter(table);
-        BorderPane.setMargin(table, new Insets(12, 0, 0, 0));
+        table.setPlaceholder(buildEmptyState("暂无业主数据", "新增业主", this::onAdd));
+
+        VBox card = new VBox(12, filterBar, table);
+        card.getStyleClass().add("card");
+        VBox.setVgrow(table, Priority.ALWAYS);
+
+        setCenter(card);
+        BorderPane.setMargin(card, new Insets(12, 0, 0, 0));
+
+        statusBar.getStyleClass().addAll("status-bar", "status-info");
+        statusBar.setAlignment(Pos.CENTER_LEFT);
+        setBottom(statusBar);
+        BorderPane.setMargin(statusBar, new Insets(12, 0, 0, 0));
 
         table.setRowFactory(tv -> {
             TableRow<Owner> row = new TableRow<>();
@@ -131,6 +149,7 @@ public class OwnerListView extends BorderPane {
             data.setAll(ownerDao.findByKeyword(currentKeyword));
         }
         System.out.println("[UI] Owner list loaded: " + data.size());
+        showStatus("status-info", "已加载 " + data.size() + " 条业主记录");
     }
 
     private void onSearch() {
@@ -283,6 +302,7 @@ public class OwnerListView extends BorderPane {
     // ---------------- Alerts ----------------
 
     private void alertInfo(String title, String msg) {
+        showStatus("status-success", msg);
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle(title);
         a.setHeaderText(null);
@@ -292,6 +312,7 @@ public class OwnerListView extends BorderPane {
     }
 
     private void alertWarn(String title, String msg) {
+        showStatus("status-warning", msg);
         Alert a = new Alert(Alert.AlertType.WARNING);
         a.setTitle(title);
         a.setHeaderText(null);
@@ -301,11 +322,34 @@ public class OwnerListView extends BorderPane {
     }
 
     private void alertError(String title, String msg) {
+        showStatus("status-error", msg);
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle(title);
         a.setHeaderText(null);
         a.setContentText(msg);
         UiStyler.applyDialogStyles(a.getDialogPane());
         a.showAndWait();
+    }
+
+    private void showStatus(String styleClass, String message) {
+        statusLabel.setText(message);
+        statusBar.getStyleClass().removeAll("status-info", "status-warning", "status-error", "status-success");
+        statusBar.getStyleClass().add(styleClass);
+    }
+
+    private VBox buildEmptyState(String title, String actionLabel, Runnable action) {
+        Label icon = new Label("📭");
+        icon.getStyleClass().add("empty-state-icon");
+        Label headline = new Label(title);
+        headline.getStyleClass().add("empty-state-title");
+        Label subtext = new Label("请点击下方按钮添加第一条记录");
+        subtext.getStyleClass().add("empty-state-text");
+        Button actionBtn = new Button(actionLabel);
+        actionBtn.getStyleClass().add("btn-primary");
+        actionBtn.setOnAction(e -> action.run());
+
+        VBox box = new VBox(8, icon, headline, subtext, actionBtn);
+        box.getStyleClass().add("empty-state");
+        return box;
     }
 }
