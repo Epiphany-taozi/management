@@ -13,6 +13,7 @@ com\ryan\property\db\DbPing.class
 com\ryan\property\model\ComplaintReply.class
 com\ryan\property\model\Staff.class
 com\ryan\property\MainApp.class
+com\ryan\property\ui\UiStyler.class
 com\ryan\property\dao\OwnerDao.class
 com\ryan\property\db\DbConnection.class
 com\ryan\property\util\AppConfig.class
