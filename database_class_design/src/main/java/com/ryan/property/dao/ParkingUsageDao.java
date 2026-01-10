@@ -44,7 +44,9 @@ public class ParkingUsageDao {
                 params.add(like);
             }
             if (filter.hasStatus()) {
-                if ("ACTIVE".equalsIgnoreCase(filter.status())) {
+                if ("ALL".equalsIgnoreCase(filter.status()) || "全部".equalsIgnoreCase(filter.status())) {
+                    // No status condition when selecting all.
+                } else if ("ACTIVE".equalsIgnoreCase(filter.status())) {
                     sql.append(" AND pu.end_time IS NULL");
                 } else if ("ENDED".equalsIgnoreCase(filter.status())) {
                     sql.append(" AND pu.end_time IS NOT NULL");
@@ -65,6 +67,9 @@ public class ParkingUsageDao {
         List<ParkingUsageRecord> records = new ArrayList<>();
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            System.out.println("[DAO] ParkingUsageDao SQL: " + sql);
+            System.out.println("[DAO] ParkingUsageDao params: " + params);
 
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(i + 1, params.get(i));
