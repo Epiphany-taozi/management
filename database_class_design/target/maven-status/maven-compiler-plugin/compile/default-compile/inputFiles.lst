@@ -4,6 +4,7 @@ F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\da
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\dao\BaseDao.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\dao\ComplaintDao.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\dao\OwnerDao.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\dao\ParkingUsageDao.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\dao\StaffDao.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\db\DbConfig.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\db\DbConnection.java
@@ -11,6 +12,7 @@ F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\da
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeFilter.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeQueryService.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeRecord.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\fees\FeeSummary.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\MainApp.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\Asset.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\Complaint.java
@@ -18,11 +20,16 @@ F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\da
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\ComplaintReply.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\House.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\Owner.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\ParkingUsageFilter.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\ParkingUsageRecord.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\ParkingUsageStats.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\model\Staff.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\service\OwnerService.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\AssetListView.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\ComplaintListView.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\FeeDataView.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\OwnerListView.java
+F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\ParkingUsageView.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\StaffListView.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\ui\UiStyler.java
 F:\Programming_Learning\02_Programming_Projects\Course_Assignments\management\database_class_design\src\main\java\com\ryan\property\util\AlertUtil.java

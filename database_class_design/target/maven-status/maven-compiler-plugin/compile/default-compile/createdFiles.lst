@@ -1,6 +1,8 @@
+com\ryan\property\fees\FeeSummary.class
 com\ryan\property\model\Complaint.class
 com\ryan\property\model\Asset.class
 com\ryan\property\model\Owner.class
+com\ryan\property\ui\FeeDataView.class
 com\ryan\property\dao\ComplaintDao.class
 com\ryan\property\ui\AssetListView.class
 com\ryan\property\model\ComplaintOverview.class
@@ -10,6 +12,7 @@ com\ryan\property\ui\OwnerListView.class
 com\ryan\property\db\DbConfig.class
 com\ryan\property\fees\FeeRecord.class
 com\ryan\property\db\DbPing.class
+com\ryan\property\dao\ParkingUsageDao.class
 com\ryan\property\model\ComplaintReply.class
 com\ryan\property\model\Staff.class
 com\ryan\property\MainApp.class
@@ -17,9 +20,13 @@ com\ryan\property\ui\UiStyler.class
 com\ryan\property\dao\OwnerDao.class
 com\ryan\property\db\DbConnection.class
 com\ryan\property\util\AppConfig.class
+com\ryan\property\model\ParkingUsageRecord.class
 com\ryan\property\ui\ComplaintListView.class
 com\ryan\property\fees\FeeFilter.class
+com\ryan\property\model\ParkingUsageStats.class
 com\ryan\property\fees\FeeQueryService.class
+com\ryan\property\ui\ParkingUsageView.class
 com\ryan\property\dao\AssetDao.class
 com\ryan\property\ui\ComplaintListView$ReplyForm.class
 com\ryan\property\util\DBUtil.class
+com\ryan\property\model\ParkingUsageFilter.class

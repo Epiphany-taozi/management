@@ -35,15 +35,15 @@ public class ComplaintDao {
                        c.status,
                        c.created_at,
                        c.updated_at,
-                       r.content     AS latest_reply_content,
-                       r.created_at  AS latest_reply_time
+                       r.reply_content     AS latest_reply_content,
+                       r.reply_time  AS latest_reply_time
                 FROM complaints c
                 LEFT JOIN complaint_replies r
                   ON r.id = (
                       SELECT cr2.id
                       FROM complaint_replies cr2
                       WHERE cr2.complaint_id = c.id
-                      ORDER BY cr2.created_at DESC, cr2.id DESC
+                      ORDER BY cr2.reply_time DESC, cr2.id DESC
                       LIMIT 1
                   )
                 WHERE 1 = 1
@@ -113,27 +113,27 @@ public class ComplaintDao {
             LocalDate endDate
     ) {
         StringBuilder sql = new StringBuilder("""
-                SELECT c.id,
-                       c.status,
-                       c.created_at,
-                       r.latest_reply_at,
-                       r.latest_reply_content
-                FROM complaints c
-                LEFT JOIN (
-                    SELECT cr.complaint_id,
-                           cr.created_at AS latest_reply_at,
-                           cr.content    AS latest_reply_content
-                    FROM complaint_replies cr
-                    JOIN (
-                        SELECT complaint_id, MAX(created_at) AS max_created_at
-                        FROM complaint_replies
-                        GROUP BY complaint_id
-                    ) latest
-                      ON latest.complaint_id = cr.complaint_id
-                     AND latest.max_created_at = cr.created_at
-                ) r ON r.complaint_id = c.id
-                WHERE 1 = 1
-                """);
+        SELECT c.id,
+               c.status,
+               c.created_at,
+               r.latest_reply_at,
+               r.latest_reply_content
+        FROM complaints c
+        LEFT JOIN (
+            SELECT cr.complaint_id,
+                   cr.reply_time    AS latest_reply_at,
+                   cr.reply_content AS latest_reply_content
+            FROM complaint_replies cr
+            JOIN (
+                SELECT complaint_id, MAX(reply_time) AS max_reply_time
+                FROM complaint_replies
+                GROUP BY complaint_id
+            ) latest
+              ON latest.complaint_id = cr.complaint_id
+             AND latest.max_reply_time = cr.reply_time
+        ) r ON r.complaint_id = c.id
+        WHERE 1 = 1
+        """);
 
         List<Object> params = new ArrayList<>();
 
@@ -142,15 +142,17 @@ public class ComplaintDao {
             params.add(status.trim());
         }
         if (startDate != null) {
-            sql.append(" AND c.created_at >= ?");
-            params.add(Timestamp.valueOf(startDate.atStartOfDay()));
-        }
-        if (endDate != null) {
-            sql.append(" AND c.created_at <= ?");
-            params.add(Timestamp.valueOf(endDate.atTime(LocalTime.MAX)));
-        }
+    sql.append(" AND c.created_at >= ?");
+    params.add(Timestamp.valueOf(startDate.atStartOfDay()));
+}
+if (endDate != null) {
+    sql.append(" AND c.created_at <= ?");
+    params.add(Timestamp.valueOf(endDate.atTime(LocalTime.MAX)));
+}
+sql.append(" ORDER BY c.created_at DESC");
 
-        sql.append(" ORDER BY c.created_at DESC");
+
+        sql.append(" ORDER BY c.reply_time DESC");
 
         List<ComplaintOverview> list = new ArrayList<>();
 
@@ -169,6 +171,7 @@ public class ComplaintDao {
                     o.setCreatedAt(rs.getTimestamp("created_at"));
                     o.setLatestReplyAt(rs.getTimestamp("latest_reply_at"));
                     o.setLatestReplyContent(rs.getString("latest_reply_content"));
+
                     list.add(o);
                 }
             }
@@ -228,7 +231,7 @@ public class ComplaintDao {
             String newStatus
     ) {
         String insertReplySql = """
-                INSERT INTO complaint_replies (complaint_id, staff_id, content)
+                INSERT INTO complaint_replies (complaint_id, staff_id, reply_content)
                 VALUES (?, ?, ?)
                 """;
 

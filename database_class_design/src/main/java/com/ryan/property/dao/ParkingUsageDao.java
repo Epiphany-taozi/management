@@ -1,10 +1,5 @@
 package com.ryan.property.dao;
 
-import com.ryan.property.model.ParkingUsageFilter;
-import com.ryan.property.model.ParkingUsageRecord;
-import com.ryan.property.model.ParkingUsageStats;
-import com.ryan.property.util.DBUtil;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +9,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ryan.property.model.ParkingUsageFilter;
+import com.ryan.property.model.ParkingUsageRecord;
+import com.ryan.property.model.ParkingUsageStats;
+import com.ryan.property.util.DBUtil;
 
 public class ParkingUsageDao {
 
