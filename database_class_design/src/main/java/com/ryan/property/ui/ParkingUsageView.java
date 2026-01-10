@@ -89,10 +89,12 @@ public class ParkingUsageView extends BorderPane {
 
     private FlowPane buildFilterBar() {
         keywordField.setPromptText("车位位置/业主姓名/电话");
-        statusCombo.getItems().setAll("", "进行中", "已结束");
-        statusCombo.setValue("");
+        statusCombo.getItems().setAll("全部", "进行中", "已结束");
+        statusCombo.setValue("全部");
         startDatePicker.setPromptText("开始日期");
         endDatePicker.setPromptText("结束日期");
+        startDatePicker.setValue(null);
+        endDatePicker.setValue(null);
 
         UiStyler.applyInputStyles(keywordField, statusCombo, startDatePicker, endDatePicker);
 
@@ -105,7 +107,7 @@ public class ParkingUsageView extends BorderPane {
         btnFilter.setOnAction(e -> reload());
         btnReset.setOnAction(e -> {
             keywordField.clear();
-            statusCombo.setValue("");
+            statusCombo.setValue("全部");
             startDatePicker.setValue(null);
             endDatePicker.setValue(null);
             reload();
@@ -228,7 +230,10 @@ public class ParkingUsageView extends BorderPane {
 
     private String resolveStatus(String selection) {
         if (selection == null || selection.isBlank()) {
-            return "";
+            return "ALL";
+        }
+        if ("全部".equals(selection)) {
+            return "ALL";
         }
         if ("进行中".equals(selection)) {
             return "ACTIVE";
