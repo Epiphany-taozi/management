@@ -68,8 +68,8 @@ public class ParkingUsageDao {
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
-            System.out.println("[DAO] ParkingUsageDao SQL: " + sql);
-            System.out.println("[DAO] ParkingUsageDao params: " + params);
+            // System.out.println("[DAO] ParkingUsageDao SQL: " + sql);
+            // System.out.println("[DAO] ParkingUsageDao params: " + params);
 
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(i + 1, params.get(i));
