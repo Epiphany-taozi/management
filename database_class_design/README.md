@@ -39,12 +39,17 @@
     │   └── ui
     └── resources
         ├── application.properties
-        ├── schema.sql
-        ├── parking_schema.sql
-        ├── repairs.sql
         ├── fxml
+        ├── styles
+        ├── sql
+            ├── schema.sql
+            ├── parking_schema.sql
+            ├── repairs.sql
+            ├── complaints.sql
+            └── fees.sql
         └── css
 ```
+
 
 ## 数据库脚本
 
@@ -63,9 +68,11 @@ CREATE DATABASE property_db DEFAULT CHARACTER SET utf8mb4;
 然后依次执行脚本：
 
 ```bash
-mysql -u root -p property_db < src/main/resources/schema.sql
-mysql -u root -p property_db < src/main/resources/parking_schema.sql
-mysql -u root -p property_db < src/main/resources/repairs.sql
+mysql -u root -p property_db < management/database_class_design/src/main/resources/sql/schema.sql
+mysql -u root -p property_db < management/database_class_design/src/main/resources/sql/parking_schema.sql
+mysql -u root -p property_db < management/database_class_design/src/main/resources/sql/repairs.sql
+mysql -u root -p property_db < management/database_class_design/src/main/resources/sql/fees.sql
+mysql -u root -p property_db < management/database_class_design/src/main/resources/sql/complaints.sql
 ```
 
 ## 配置说明
@@ -91,7 +98,7 @@ mvn clean javafx:run
 ## 常见问题
 
 - **数据库连接失败**：请确认数据库已创建且脚本已执行，账号密码配置正确。
-- **JavaFX 启动失败**：请使用 JDK 21，并确保 Maven 已正确安装。
+- **JavaFX 启动失败**：请使用 JDK 21，并确保 Maven 与 JAVAFX 已正确安装。
 
 ## 许可证
 
